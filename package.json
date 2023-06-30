@@ -1,6 +1,6 @@
 {
   "name": "semantic-release-config-kuzzle",
-  "version": "1.0.0-develop.1",
+  "version": "1.0.0",
   "description": "The semantic-release shareable config we use for Kuzzle projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
