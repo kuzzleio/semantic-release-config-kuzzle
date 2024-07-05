@@ -4,5 +4,6 @@
     "plugin:kuzzle/default",
     "plugin:kuzzle/node",
     "plugin:kuzzle/typescript"
-  ]
+  ],
+  "ignorePatterns": ["dist/*", "lib/plugin.ts"]
 }

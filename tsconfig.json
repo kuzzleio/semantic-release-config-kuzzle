@@ -1,19 +1,31 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "lib": ["es2022"],
-    "declaration": true,
-    "listEmittedFiles": true,
-    "module": "commonjs",
-    "target": "es2022",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "baseUrl": ".",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
+    /* Emit */
     "outDir": "dist/",
+    "target": "Es2022",
+    "module": "CommonJS",
+    "declaration": true,
+    "sourceMap": true,
+    // Ensure use `lf` like EOL on builded files
+    "newLine": "lf",
+    /* Module */
+    "baseUrl": ".",
+    "lib": ["es2022"],
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    /* Interop */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Linting */
+    "skipLibCheck": true,
     "strict": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    /* Diagnostics */
+    "listEmittedFiles": true,
   },
-  "rootDir": "lib/",
   "include": ["lib/**/*.ts"],
   "exclude": ["node_modules"],
 }
