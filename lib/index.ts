@@ -27,13 +27,16 @@ if (existsSync("package.json")) {
 } else {
   // eslint-disable-next-line no-console
   console.warn(
-    "Could not infer package type, assuming publication is handled externally."
+    "Could not infer package type, assuming publication is handled externally.",
   );
 }
 
 const plugins: PluginSpec[] = [
-  "@semantic-release/commit-analyzer",
-  "@semantic-release/release-notes-generator",
+  ["@semantic-release/commit-analyzer", { preset: "conventionalcommits" }],
+  [
+    "@semantic-release/release-notes-generator",
+    { preset: "conventionalcommits" },
+  ],
   "@semantic-release/changelog",
   ...publishPlugins,
   "@semantic-release/github",
