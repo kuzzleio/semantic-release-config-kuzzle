@@ -6,6 +6,9 @@ on:
       - main
       - develop
 
+env:
+  HUSKY: 0
+
 jobs:
   release:
     name: Release process
