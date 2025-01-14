@@ -23,15 +23,14 @@
   },
   "homepage": "https://github.com/kuzzleio/semantic-release-config-kuzzle#readme",
   "dependencies": {
-    "conventional-changelog-conventionalcommits": "^8.0.0"
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "semantic-release-slack-bot": "^4.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^13.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/node": "^22.10.6",
     "@types/semantic-release": "^20.0.6",
     "cz-conventional-changelog": "^3.3.0",
@@ -40,7 +39,6 @@
     "husky": "^9.1.7",
     "rimraf": "^6.0.1",
     "semantic-release": "^24.2.1",
-    "semantic-release-slack-bot": "^4.0.2",
     "typescript": "^5.7.3"
   },
   "files": [
