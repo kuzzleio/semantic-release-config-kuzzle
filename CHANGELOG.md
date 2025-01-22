@@ -1,3 +1,10 @@
+## [1.1.2-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.1.1...v1.1.2-develop.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* **deps:** downgrade semantic-release and conventional-changelog-conventionalcommits ([f926a13](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/f926a134dd3834bb54f396833eb8c99e5ab9f43d))
+
 ## [1.1.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.1.0...v1.1.1) (2025-01-15)
 
 ### Bug Fixes
