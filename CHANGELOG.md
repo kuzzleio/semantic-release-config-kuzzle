@@ -1,3 +1,9 @@
+## [1.3.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.2.0...v1.3.0) (2025-12-15)
+
+### Features
+
+* bump deps ([e76d9ed](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/e76d9ed57b91aa619a61f147737b9ec011aa0293))
+
 ## [1.2.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.1.2...v1.2.0) (2025-12-15)
 
 ### Features
