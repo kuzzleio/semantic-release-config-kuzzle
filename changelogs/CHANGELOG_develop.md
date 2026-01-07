@@ -1,3 +1,9 @@
+## [1.4.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0-develop.1...v1.4.0-develop.2) (2026-01-07)
+
+### Features
+
+* removed unwanted old changelog file ([3af5c79](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/3af5c79713dbd6cdc93f1c462916802883236889))
+
 ## [1.4.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.3.0...v1.4.0-develop.1) (2026-01-07)
 
 ### Features
