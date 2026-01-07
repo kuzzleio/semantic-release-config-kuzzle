@@ -1,3 +1,23 @@
+## [1.3.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.2.0...v1.3.0) (2025-12-15)
+
+### Features
+
+* bump deps ([e76d9ed](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/e76d9ed57b91aa619a61f147737b9ec011aa0293))
+
+## [1.2.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.1.2...v1.2.0) (2025-12-15)
+
+### Features
+
+* bump deps ([07037d6](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/07037d6703f7270aab4c05a184b5b1c5aef4803d))
+* deps bumping ([5a25448](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/5a2544848468366ebed457dea2ef9e0ca27bdeca))
+
+## [1.1.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.1.1...v1.1.2) (2025-01-22)
+
+
+### Bug Fixes
+
+* **deps:** downgrade semantic-release and conventional-changelog-conventionalcommits ([f926a13](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/f926a134dd3834bb54f396833eb8c99e5ab9f43d))
+
 ## [1.1.2-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.1.1...v1.1.2-develop.1) (2025-01-22)
 
 
