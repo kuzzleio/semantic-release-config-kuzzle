@@ -1,3 +1,10 @@
+## [1.4.0-develop.5](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0-develop.4...v1.4.0-develop.5) (2026-01-14)
+
+### Features
+
+* add exec plugin to update workspace version as well ([dfb6b8e](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/dfb6b8e6cbfbe9c5dd831142926e5310e936b359))
+* update workspace version if any ([51d11e5](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/51d11e570286a3957180f743c3e761d37c1402ed))
+
 ## [1.4.0-develop.4](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0-develop.3...v1.4.0-develop.4) (2026-01-14)
 
 ### Features
