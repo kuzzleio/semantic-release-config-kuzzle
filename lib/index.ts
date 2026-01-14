@@ -1,4 +1,28 @@
 import { BranchSpec, PluginSpec } from "semantic-release";
+import fg from "fast-glob";
+import fs from "node:fs";
+
+function getWorkspacePackageJsonFiles(): string[] {
+  const rootPkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+  let workspaces: string[] = [];
+
+  if (Array.isArray(rootPkg.workspaces)) {
+    workspaces = rootPkg.workspaces;
+  } else if (rootPkg.workspaces && Array.isArray(rootPkg.workspaces.packages)) {
+    workspaces = rootPkg.workspaces.packages;
+  }
+
+  const patterns = workspaces.map((ws) =>
+    ws.endsWith("/") ? `${ws}package.json` : `${ws}/package.json`,
+  );
+
+  return fg.sync(patterns, {
+    onlyFiles: true,
+    unique: true,
+    dot: false,
+    followSymbolicLinks: true,
+  });
+}
 
 /**
  * Default semantic-release configuration for Kuzzle projects.
@@ -44,6 +68,10 @@ const inferReleaseChannel = () => {
   return normalizedRef.split("/").pop();
 };
 
+const workspacePkgFiles = getWorkspacePackageJsonFiles();
+
+console.log("HEERE", workspacePkgFiles);
+
 const releaseChannel =
   process.env.RELEASE_CHANNEL || inferReleaseChannel() || releaseBranchName;
 
@@ -62,7 +90,14 @@ const plugins: PluginSpec[] = [
   [
     "@semantic-release/git",
     {
-      assets: [`changelogs/CHANGELOG_${releaseChannel}.md`],
+      assets: [
+        `changelogs/CHANGELOG_${releaseChannel}.md`,
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        ...workspacePkgFiles,
+      ],
     },
   ],
 ];
