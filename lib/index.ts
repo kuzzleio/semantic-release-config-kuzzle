@@ -2,6 +2,12 @@ import { BranchSpec, PluginSpec } from "semantic-release";
 import fg from "fast-glob";
 import fs from "node:fs";
 
+/**
+ * This function extract an Array of package.json file
+ * That are found inside the current repo. It will seek for folder
+ * Inside the workspace property of the root package.json file.
+ * @returns string[]
+ */
 function getWorkspacePackageJsonFiles(): string[] {
   const rootPkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
   let workspaces: string[] = [];
@@ -85,19 +91,6 @@ const plugins: PluginSpec[] = [
       changelogFile: `changelogs/CHANGELOG_${releaseChannel}.md`,
     },
   ],
-  [
-    "@semantic-release/git",
-    {
-      assets: [
-        `changelogs/CHANGELOG_${releaseChannel}.md`,
-        "package.json",
-        "package-lock.json",
-        "pnpm-lock.yaml",
-        "yarn.lock",
-        ...workspacePkgFiles,
-      ],
-    },
-  ],
 ];
 
 if (process.env.GITHUB_TOKEN) {
@@ -125,5 +118,25 @@ if (process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK) {
     },
   ]);
 }
+
+/**
+ * Git plugin must be in latest position
+ * because it will seek for files changed from the process
+ * and commit them. If you move the definition to soon, nothing will be pushed.
+ */
+
+plugins.push([
+  "@semantic-release/git",
+  {
+    assets: [
+      `changelogs/CHANGELOG_${releaseChannel}.md`,
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock",
+      ...workspacePkgFiles,
+    ],
+  },
+]);
 
 export { branches, plugins };
