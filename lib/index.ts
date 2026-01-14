@@ -91,13 +91,6 @@ const plugins: PluginSpec[] = [
       changelogFile: `changelogs/CHANGELOG_${releaseChannel}.md`,
     },
   ],
-  [
-    "@semantic-release/exec",
-    {
-      prepareCmd:
-        "npm version ${nextRelease.version} --workspaces --no-git-tag-version",
-    },
-  ],
 ];
 
 if (process.env.GITHUB_TOKEN) {
@@ -111,6 +104,20 @@ if (process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true") {
     "@semantic-release/npm",
     {
       npmPublish: false,
+    },
+  ]);
+}
+
+/**
+ * Add the exec plugin to update the version of workspaces
+ * Only if there is actual workspace to update :)
+ */
+if (workspacePkgFiles.length > 0) {
+  plugins.push([
+    "@semantic-release/exec",
+    {
+      prepareCmd:
+        "npm version ${nextRelease.version} --workspaces --no-git-tag-version",
     },
   ]);
 }
