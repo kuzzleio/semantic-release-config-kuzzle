@@ -70,8 +70,6 @@ const inferReleaseChannel = () => {
 
 const workspacePkgFiles = getWorkspacePackageJsonFiles();
 
-console.log("HEERE", workspacePkgFiles);
-
 const releaseChannel =
   process.env.RELEASE_CHANNEL || inferReleaseChannel() || releaseBranchName;
 
