@@ -91,6 +91,13 @@ const plugins: PluginSpec[] = [
       changelogFile: `changelogs/CHANGELOG_${releaseChannel}.md`,
     },
   ],
+  [
+    "@semantic-release/exec",
+    {
+      prepareCmd:
+        "npm version ${nextRelease.version} --workspaces --no-git-tag-version",
+    },
+  ],
 ];
 
 if (process.env.GITHUB_TOKEN) {
