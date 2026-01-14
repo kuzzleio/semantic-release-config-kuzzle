@@ -1,17 +1,7 @@
 {
   "name": "semantic-release-config-kuzzle",
-  "version": "1.3.0",
+  "version": "1.4.0-develop.5",
   "description": "The semantic-release shareable config we use for Kuzzle projects.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "clean": "rimraf dist",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "prepare": "husky",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kuzzleio/semantic-release-config-kuzzle.git"
@@ -22,26 +12,34 @@
     "url": "https://github.com/kuzzleio/semantic-release-config-kuzzle/issues"
   },
   "homepage": "https://github.com/kuzzleio/semantic-release-config-kuzzle#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "semantic-release:dry-run": "semantic-release --dry-run",
+    "semantic-release": "semantic-release"
+  },
   "dependencies": {
     "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/commit-analyzer": "13.0.1",
+    "@semantic-release/exec": "7.1.0",
     "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "12.0.2",
+    "@semantic-release/npm": "13.1.3",
+    "@semantic-release/release-notes-generator": "14.1.0",
     "conventional-changelog-conventionalcommits": "9.1.0",
+    "fast-glob": "^3.3.3",
+    "semantic-release": "25.0.2",
     "semantic-release-slack-bot": "4.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "20.2.0",
-    "@commitlint/config-conventional": "20.2.0",
-    "@types/node": "25.0.2",
+    "@types/node": "24.*.*",
     "@types/semantic-release": "21.1.0",
-    "cz-conventional-changelog": "3.3.0",
     "eslint-plugin-kuzzle": "0.0.15",
-    "husky": "9.1.7",
-    "rimraf": "6.1.2",
-    "semantic-release": "25.0.2",
     "typescript": "5.4.*"
-  },
-  "peerDependencies": {
-    "semantic-release": ">=23.1.1"
   },
   "files": [
     "CHANGELOG.md",
