@@ -1,3 +1,9 @@
+## [1.4.0-develop.4](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0-develop.3...v1.4.0-develop.4) (2026-01-14)
+
+### Features
+
+* place git plugins last, document function ([9be485f](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/9be485ffa9e0621b96371ec1c10f6000eb435d6e))
+
 ## [1.4.0-develop.3](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0-develop.2...v1.4.0-develop.3) (2026-01-14)
 
 ### Features
