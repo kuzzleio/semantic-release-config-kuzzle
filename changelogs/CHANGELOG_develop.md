@@ -1,3 +1,9 @@
+## [1.5.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.5.0-develop.1...v1.5.0-develop.2) (2026-02-03)
+
+### Bug Fixes
+
+* missing release version when publish ([458cbb9](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/458cbb9bf3b9cd30a2437a6ad788eae3d9145303))
+
 ## [1.5.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0...v1.5.0-develop.1) (2026-02-03)
 
 ### Features
