@@ -1,6 +1,6 @@
 {
   "name": "semantic-release-config-kuzzle",
-  "version": "1.5.0-develop.2",
+  "version": "1.5.0",
   "description": "The semantic-release shareable config we use for Kuzzle projects.",
   "repository": {
     "type": "git",

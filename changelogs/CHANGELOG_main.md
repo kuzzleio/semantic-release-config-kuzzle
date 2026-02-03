@@ -1,3 +1,13 @@
+## [1.5.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0...v1.5.0) (2026-02-03)
+
+### Features
+
+* publish workspace ([4da96b5](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/4da96b514543250392459f9e7f31ea07d235844d))
+
+### Bug Fixes
+
+* missing release version when publish ([458cbb9](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/458cbb9bf3b9cd30a2437a6ad788eae3d9145303))
+
 ## [1.4.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.3.0...v1.4.0) (2026-01-14)
 
 ### Features
