@@ -1,3 +1,9 @@
+## [1.5.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0...v1.5.0-develop.1) (2026-02-03)
+
+### Features
+
+* publish workspace ([4da96b5](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/4da96b514543250392459f9e7f31ea07d235844d))
+
 ## [1.4.0-develop.5](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.4.0-develop.4...v1.4.0-develop.5) (2026-01-14)
 
 ### Features
