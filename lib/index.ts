@@ -97,7 +97,9 @@ if (process.env.GITHUB_TOKEN) {
   plugins.push("@semantic-release/github");
 }
 
-if (process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true") {
+const shouldPublishToNpm = process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true";
+
+if (shouldPublishToNpm && workspacePkgFiles.length === 0) {
   plugins.push("@semantic-release/npm");
 } else {
   plugins.push([
@@ -113,11 +115,15 @@ if (process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true") {
  * Only if there is actual workspace to update :)
  */
 if (workspacePkgFiles.length > 0) {
+  const npmTag = releaseChannel;
   plugins.push([
     "@semantic-release/exec",
     {
       prepareCmd:
         "npm version ${nextRelease.version} --workspaces --no-git-tag-version",
+      publishCmd: shouldPublishToNpm
+        ? `npm publish --workspaces --if-present --tag ${npmTag}`
+        : undefined,
     },
   ]);
 }
