@@ -115,7 +115,7 @@ if (shouldPublishToNpm && workspacePkgFiles.length === 0) {
  * Only if there is actual workspace to update :)
  */
 if (workspacePkgFiles.length > 0) {
-  const shouldBuildPkg = process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true";
+  const shouldBuildPkg = process.env.SEMANTIC_RELEASE_NPM_BUILD === "true";
 
   /**
    * Sometimes we want to build the package after the version bump
