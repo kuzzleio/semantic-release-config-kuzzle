@@ -1,3 +1,13 @@
+## [1.6.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.5.0...v1.6.0-develop.1) (2026-04-17)
+
+### Features
+
+* add the possibility to build directly using semantic ([78101d2](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/78101d21c163565d59351dd43ea15c0d6b976bb8))
+
+### Bug Fixes
+
+* wrong variable name ([8f27456](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/8f274562b789b66bf1ae50913dc109e84adc154b))
+
 ## [1.5.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.5.0-develop.1...v1.5.0-develop.2) (2026-02-03)
 
 ### Bug Fixes
