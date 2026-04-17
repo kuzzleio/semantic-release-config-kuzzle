@@ -115,12 +115,25 @@ if (shouldPublishToNpm && workspacePkgFiles.length === 0) {
  * Only if there is actual workspace to update :)
  */
 if (workspacePkgFiles.length > 0) {
+  const shouldBuildPkg = process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true";
+
+  /**
+   * Sometimes we want to build the package after the version bump
+   * So the only way we can do that is by executing the build command
+   * After the npm version happened
+   */
+  let prepareCmdString =
+    "npm version ${nextRelease.version} --workspaces --no-git-tag-version";
+
+  if (shouldBuildPkg) {
+    prepareCmdString += " && npm run build";
+  }
+
   const npmTag = releaseChannel;
   plugins.push([
     "@semantic-release/exec",
     {
-      prepareCmd:
-        "npm version ${nextRelease.version} --workspaces --no-git-tag-version",
+      prepareCmd: prepareCmdString,
       publishCmd: shouldPublishToNpm
         ? `npm publish --workspaces --if-present --tag ${npmTag}`
         : undefined,
