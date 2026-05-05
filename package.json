@@ -18,7 +18,8 @@
     "build": "tsc",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "semantic-release:dry-run": "semantic-release --dry-run",
     "semantic-release": "semantic-release"
   },
@@ -38,13 +39,13 @@
   "devDependencies": {
     "@types/node": "24.*.*",
     "@types/semantic-release": "21.1.0",
+    "@vitest/coverage-v8": "4.0.16",
     "eslint-plugin-kuzzle": "0.0.15",
-    "typescript": "5.4.*"
+    "typescript": "5.4.*",
+    "vitest": "4.0.16"
   },
   "files": [
     "CHANGELOG.md",
-    "dist/index.js",
-    "dist/index.js.map",
-    "dist/index.d.ts"
+    "dist"
   ]
 }

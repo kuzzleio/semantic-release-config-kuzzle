@@ -5,6 +5,7 @@ Shareable `semantic-release` configuration used by Kuzzle projects.
 It provides:
 - sensible default branches
 - changelogs per release channel
+- a `minor` release for `chore(deps):` commits
 - optional GitHub/NPM/Slack integrations
 - workspace version bumping when using npm workspaces
 
