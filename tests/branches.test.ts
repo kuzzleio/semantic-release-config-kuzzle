@@ -13,9 +13,8 @@ describe("branches", () => {
   });
 
   it("uses main and develop as default branches", async () => {
-    const { branches, developBranchName, releaseBranchName } = await import(
-      "../lib/branches"
-    );
+    const { branches, developBranchName, releaseBranchName } =
+      await import("../lib/branches");
 
     expect(releaseBranchName).toBe("main");
     expect(developBranchName).toBe("develop");
@@ -29,9 +28,8 @@ describe("branches", () => {
     process.env.SEMANTIC_RELEASE_RELEASE_BRANCH = "production";
     process.env.SEMANTIC_RELEASE_DEVELOP_BRANCH = "next";
 
-    const { branches, developBranchName, releaseBranchName } = await import(
-      "../lib/branches"
-    );
+    const { branches, developBranchName, releaseBranchName } =
+      await import("../lib/branches");
 
     expect(releaseBranchName).toBe("production");
     expect(developBranchName).toBe("next");

@@ -24,9 +24,8 @@ describe("release channel", () => {
   it("infers the channel from the current CI branch", async () => {
     process.env.GITHUB_REF = "refs/heads/feature/dependencies";
 
-    const { getReleaseChannel, inferReleaseChannel } = await import(
-      "../lib/release-channel"
-    );
+    const { getReleaseChannel, inferReleaseChannel } =
+      await import("../lib/release-channel");
 
     expect(inferReleaseChannel()).toBe("dependencies");
     expect(getReleaseChannel()).toBe("dependencies");

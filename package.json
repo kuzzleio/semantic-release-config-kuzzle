@@ -16,8 +16,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
+    "lint": "eslint --ext .ts lib tests vitest.config.ts",
+    "lint:fix": "eslint --fix --ext .ts lib tests vitest.config.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "semantic-release:dry-run": "semantic-release --dry-run",
