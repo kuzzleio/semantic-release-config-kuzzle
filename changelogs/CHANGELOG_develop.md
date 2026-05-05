@@ -1,3 +1,5 @@
+## [1.7.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.0-develop.1...v1.7.0-develop.2) (2026-05-05)
+
 ## [1.7.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.6.0...v1.7.0-develop.1) (2026-05-05)
 
 ### Features
