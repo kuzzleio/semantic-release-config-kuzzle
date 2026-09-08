@@ -10,6 +10,35 @@ const workspacePkgFiles = getWorkspacePackageJsonFiles();
  * Default plugins configuration.
  * Main thing here is to use a different changelog file depending on the release channel.
  */
+/**
+ * The conventionalcommits preset hides `chore` from the release notes, while
+ * this config promotes `chore(deps)` to a minor release. A dependency bump
+ * therefore ships a minor whose notes say nothing about it, and a release made
+ * only of dependency work gets an empty changelog entry.
+ *
+ * Two constraints shape the list below. `findTypeEntry` returns the first
+ * match and only compares `scope` when the entry declares one, so the scoped
+ * entry has to come before the bare `chore` one. And passing `types` replaces
+ * the preset's list instead of extending it, which is why the defaults are
+ * restated: the preset is ESM-only, so its DEFAULT_COMMIT_TYPES cannot be
+ * imported from this CommonJS build.
+ */
+const commitTypes = [
+  { scope: "deps", section: "Dependencies", type: "chore" },
+  { section: "Features", type: "feat" },
+  { section: "Features", type: "feature" },
+  { section: "Bug Fixes", type: "fix" },
+  { section: "Performance Improvements", type: "perf" },
+  { section: "Reverts", type: "revert" },
+  { hidden: true, section: "Documentation", type: "docs" },
+  { hidden: true, section: "Styles", type: "style" },
+  { hidden: true, section: "Miscellaneous Chores", type: "chore" },
+  { hidden: true, section: "Code Refactoring", type: "refactor" },
+  { hidden: true, section: "Tests", type: "test" },
+  { hidden: true, section: "Build System", type: "build" },
+  { hidden: true, section: "Continuous Integration", type: "ci" },
+];
+
 const plugins: PluginSpec[] = [
   [
     "@semantic-release/commit-analyzer",
@@ -20,7 +49,13 @@ const plugins: PluginSpec[] = [
   ],
   [
     "@semantic-release/release-notes-generator",
-    { preset: "conventionalcommits" },
+    {
+      preset: "conventionalcommits",
+      // Only the notes generator is configured: the commit analyzer keeps its
+      // own preset and releaseRules, so how the version is computed is
+      // untouched.
+      presetConfig: { types: commitTypes },
+    },
   ],
   [
     "@semantic-release/changelog",
