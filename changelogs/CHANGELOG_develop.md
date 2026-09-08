@@ -1,3 +1,9 @@
+## [1.7.2-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.1...v1.7.2-develop.1) (2026-09-08)
+
+### Bug Fixes
+
+* **notes:** surface dependency work in the release notes ([ab8260c](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/ab8260c55452d8c5818897372d3d9b1b1b412616))
+
 ## [1.7.1-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.0...v1.7.1-develop.1) (2026-09-08)
 
 ### Bug Fixes
