@@ -164,4 +164,37 @@ describe("plugins", () => {
       },
     ]);
   });
+
+  it("publishes the stable channel under the latest npm tag", async () => {
+    const plugins = await loadPlugins({
+      releaseChannel: "main",
+      workspacePkgFiles: ["packages/api/package.json"],
+      env: {
+        SEMANTIC_RELEASE_NPM_PUBLISH: "true",
+      },
+    });
+
+    expect(getPluginConfig(plugins, "@semantic-release/exec")[1]).toMatchObject(
+      {
+        publishCmd: "npm publish --workspaces --if-present --tag latest",
+      },
+    );
+  });
+
+  it("follows a renamed release branch when tagging the stable channel", async () => {
+    const plugins = await loadPlugins({
+      releaseChannel: "master",
+      workspacePkgFiles: ["packages/api/package.json"],
+      env: {
+        SEMANTIC_RELEASE_NPM_PUBLISH: "true",
+        SEMANTIC_RELEASE_RELEASE_BRANCH: "master",
+      },
+    });
+
+    expect(getPluginConfig(plugins, "@semantic-release/exec")[1]).toMatchObject(
+      {
+        publishCmd: "npm publish --workspaces --if-present --tag latest",
+      },
+    );
+  });
 });

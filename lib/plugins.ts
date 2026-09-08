@@ -1,5 +1,6 @@
 import { PluginSpec } from "semantic-release";
 
+import { releaseBranchName } from "./branches";
 import { releaseChannel } from "./release-channel";
 import { getWorkspacePackageJsonFiles } from "./workspaces";
 
@@ -65,7 +66,14 @@ if (workspacePkgFiles.length > 0) {
     prepareCmdString += " && npm run build";
   }
 
-  const npmTag = releaseChannel;
+  /**
+   * The stable channel has to land on npm's default tag. Publishing it under
+   * the branch name instead would leave `npm install <pkg>` on the previous
+   * release, which is what the plain @semantic-release/npm path already gets
+   * right for non-workspace repositories.
+   */
+  const npmTag =
+    releaseChannel === releaseBranchName ? "latest" : releaseChannel;
   plugins.push([
     "@semantic-release/exec",
     {
