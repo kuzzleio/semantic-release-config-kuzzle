@@ -65,7 +65,10 @@ describe("plugins", () => {
       ],
       [
         "@semantic-release/release-notes-generator",
-        { preset: "conventionalcommits" },
+        {
+          preset: "conventionalcommits",
+          presetConfig: { types: expect.any(Array) },
+        },
       ],
       [
         "@semantic-release/changelog",
@@ -196,5 +199,61 @@ describe("plugins", () => {
         publishCmd: "npm publish --workspaces --if-present --tag latest",
       },
     );
+  });
+
+  it("surfaces dependency work in the release notes", async () => {
+    const plugins = await loadPlugins();
+    const [, options] = getPluginConfig(
+      plugins,
+      "@semantic-release/release-notes-generator",
+    );
+    const types = (options.presetConfig as { types: Record<string, unknown>[] })
+      .types;
+
+    // findTypeEntry returns the first match and only compares scope when the
+    // entry declares one, so the scoped entry must come first or the bare
+    // chore entry would hide it.
+    expect(types[0]).toEqual({
+      scope: "deps",
+      section: "Dependencies",
+      type: "chore",
+    });
+    expect(types.find((t) => t.type === "chore" && !t.scope)).toEqual({
+      hidden: true,
+      section: "Miscellaneous Chores",
+      type: "chore",
+    });
+  });
+
+  it("leaves the types the preset already shows untouched", async () => {
+    const plugins = await loadPlugins();
+    const [, options] = getPluginConfig(
+      plugins,
+      "@semantic-release/release-notes-generator",
+    );
+    const types = (options.presetConfig as { types: Record<string, unknown>[] })
+      .types;
+
+    for (const type of ["feat", "fix", "perf", "revert"]) {
+      expect(types.find((t) => t.type === type)).not.toHaveProperty("hidden");
+    }
+
+    // Replacing the list must not drop a type: the preset ships twelve, and
+    // the scoped chore entry is the only addition.
+    expect(types).toHaveLength(13);
+  });
+
+  it("does not touch how the version is computed", async () => {
+    const plugins = await loadPlugins();
+
+    expect(
+      getPluginConfig(plugins, "@semantic-release/commit-analyzer"),
+    ).toEqual([
+      "@semantic-release/commit-analyzer",
+      {
+        preset: "conventionalcommits",
+        releaseRules: [{ type: "chore", scope: "deps", release: "minor" }],
+      },
+    ]);
   });
 });
