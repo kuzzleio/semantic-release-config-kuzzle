@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.0...v1.7.1) (2026-09-08)
+
+### Bug Fixes
+
+* **plugins:** publish the stable channel under the latest npm tag ([365e3ad](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/365e3ad03ef10d3f4db9ae8237874dcc48d4a3b1))
+
 ## [1.7.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.6.0...v1.7.0) (2026-05-05)
 
 ### Features
