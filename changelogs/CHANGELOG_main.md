@@ -1,3 +1,9 @@
+## [1.7.3](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.2...v1.7.3) (2026-09-17)
+
+### Bug Fixes
+
+* **preset:** resolve the conventionalcommits preset from this package ([548baea](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/548baea191b3cd358cc53620b71e1e20a28e76cd)), closes [#12](https://github.com/kuzzleio/semantic-release-config-kuzzle/issues/12)
+
 ## [1.7.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.1...v1.7.2) (2026-09-08)
 
 ### Bug Fixes
