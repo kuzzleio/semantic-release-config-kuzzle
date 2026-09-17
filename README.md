@@ -35,6 +35,19 @@ Override those defaults with environment variables:
 - `SEMANTIC_RELEASE_RELEASE_BRANCH` (default: `main`)
 - `SEMANTIC_RELEASE_DEVELOP_BRANCH` (default: `develop`)
 
+## Commit convention
+
+Commits are parsed with the [`conventionalcommits`](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-conventionalcommits)
+preset, extended so that `chore(deps):` commits land in a `Dependencies`
+section of the release notes instead of being hidden with the other chores.
+
+The preset is shipped with this package (`presets/conventionalcommits.mjs`) and
+pinned by path, so you do not have to install it in your own project. Earlier
+versions named it through the plugins' `preset` option instead, which only
+resolved when your package manager happened to hoist it to your root
+`node_modules/` and otherwise failed with `Cannot find module
+'conventional-changelog-conventionalcommits'`.
+
 ## Changelog behavior
 
 Changelogs are written to `changelogs/CHANGELOG_<channel>.md`.

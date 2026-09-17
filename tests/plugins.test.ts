@@ -59,15 +59,14 @@ describe("plugins", () => {
       [
         "@semantic-release/commit-analyzer",
         {
-          preset: "conventionalcommits",
+          config: expect.stringContaining("presets/conventionalcommits.mjs"),
           releaseRules: [{ type: "chore", scope: "deps", release: "minor" }],
         },
       ],
       [
         "@semantic-release/release-notes-generator",
         {
-          preset: "conventionalcommits",
-          presetConfig: { types: expect.any(Array) },
+          config: expect.stringContaining("presets/conventionalcommits.mjs"),
         },
       ],
       [
@@ -201,46 +200,113 @@ describe("plugins", () => {
     );
   });
 
-  it("surfaces dependency work in the release notes", async () => {
-    const plugins = await loadPlugins();
-    const [, options] = getPluginConfig(
-      plugins,
-      "@semantic-release/release-notes-generator",
-    );
-    const types = (options.presetConfig as { types: Record<string, unknown>[] })
-      .types;
+  /**
+   * The bug this guards against: both plugins look for a preset named through
+   * `preset` in their own directory and in the consumer's cwd only, and neither
+   * of them depends on conventional-changelog-conventionalcommits. Naming the
+   * preset therefore only worked while npm happened to hoist our dependency to
+   * the consumer's root node_modules/; when it nested it under this package
+   * instead, releases failed with `Cannot find module`.
+   *
+   * Pinning `config` to the shipped wrapper has to keep working whatever the
+   * consumer's tree looks like, so both plugins are driven here through their
+   * public API with a cwd that resolves nothing at all.
+   */
+  describe("conventionalcommits preset, from a cwd that resolves nothing", () => {
+    const cwd = "/semantic-release-config-kuzzle-nonexistent-cwd";
 
-    // findTypeEntry returns the first match and only compares scope when the
-    // entry declares one, so the scoped entry must come first or the bare
-    // chore entry would hide it.
-    expect(types[0]).toEqual({
-      scope: "deps",
-      section: "Dependencies",
-      type: "chore",
+    const commit = (message: string, hash: string) => ({
+      hash,
+      message,
+      subject: message.split("\n")[0],
+      committerDate: "2026-01-01",
     });
-    expect(types.find((t) => t.type === "chore" && !t.scope)).toEqual({
-      hidden: true,
-      section: "Miscellaneous Chores",
-      type: "chore",
-    });
-  });
 
-  it("leaves the types the preset already shows untouched", async () => {
-    const plugins = await loadPlugins();
-    const [, options] = getPluginConfig(
-      plugins,
-      "@semantic-release/release-notes-generator",
-    );
-    const types = (options.presetConfig as { types: Record<string, unknown>[] })
-      .types;
+    async function generate(commits: ReturnType<typeof commit>[]) {
+      const plugins = await loadPlugins();
+      const [, options] = getPluginConfig(
+        plugins,
+        "@semantic-release/release-notes-generator",
+      );
+      const { generateNotes } =
+        await import("@semantic-release/release-notes-generator");
 
-    for (const type of ["feat", "fix", "perf", "revert"]) {
-      expect(types.find((t) => t.type === type)).not.toHaveProperty("hidden");
+      return generateNotes(options, {
+        commits,
+        cwd,
+        lastRelease: { gitTag: "v1.0.0" },
+        nextRelease: { gitTag: "v1.1.0", version: "1.1.0" },
+        options: {
+          repositoryUrl:
+            "https://github.com/kuzzleio/semantic-release-config-kuzzle.git",
+        },
+      });
     }
 
-    // Replacing the list must not drop a type: the preset ships twelve, and
-    // the scoped chore entry is the only addition.
-    expect(types).toHaveLength(13);
+    async function analyze(commits: ReturnType<typeof commit>[]) {
+      const plugins = await loadPlugins();
+      const [, options] = getPluginConfig(
+        plugins,
+        "@semantic-release/commit-analyzer",
+      );
+      const { analyzeCommits } =
+        await import("@semantic-release/commit-analyzer");
+
+      return analyzeCommits(options, {
+        commits,
+        cwd,
+        logger: { log: () => {} },
+      });
+    }
+
+    it("analyzes commits with the conventionalcommits parser", async () => {
+      // A `!` breaking marker is conventionalcommits, not angular: getting a
+      // major here proves the preset was loaded rather than the default.
+      await expect(
+        analyze([commit("feat!: drop node 18", "aaa1111")]),
+      ).resolves.toBe("major");
+      await expect(analyze([commit("fix: a bug", "aaa2222")])).resolves.toBe(
+        "patch",
+      );
+    });
+
+    it("promotes dependency bumps to a minor release", async () => {
+      await expect(
+        analyze([commit("chore(deps): bump lodash", "bbb1111")]),
+      ).resolves.toBe("minor");
+    });
+
+    it("surfaces dependency work in the release notes", async () => {
+      const notes = await generate([
+        commit("chore(deps): bump lodash", "ccc1111"),
+      ]);
+
+      // findTypeEntry returns the first match and only compares scope when the
+      // entry declares one, so the scoped entry must come before the preset's
+      // bare chore one or that one would hide it.
+      expect(notes).toContain("Dependencies");
+      expect(notes).toContain("bump lodash");
+    });
+
+    it("leaves the types the preset already shows untouched", async () => {
+      const notes = await generate([
+        commit("feat: a feature", "ddd1111"),
+        commit("fix: a bug", "ddd2222"),
+        commit("perf: faster", "ddd3333"),
+        commit("chore: tidy up", "ddd4444"),
+        commit("docs: a doc", "ddd5555"),
+        commit("ci: a pipeline", "ddd6666"),
+      ]);
+
+      expect(notes).toContain("Features");
+      expect(notes).toContain("Bug Fixes");
+      expect(notes).toContain("Performance Improvements");
+
+      expect(notes).not.toContain("Miscellaneous Chores");
+      expect(notes).not.toContain("tidy up");
+      expect(notes).not.toContain("Documentation");
+      expect(notes).not.toContain("Continuous Integration");
+    });
   });
 
   it("does not touch how the version is computed", async () => {
@@ -251,7 +317,7 @@ describe("plugins", () => {
     ).toEqual([
       "@semantic-release/commit-analyzer",
       {
-        preset: "conventionalcommits",
+        config: expect.stringContaining("presets/conventionalcommits.mjs"),
         releaseRules: [{ type: "chore", scope: "deps", release: "minor" }],
       },
     ]);
