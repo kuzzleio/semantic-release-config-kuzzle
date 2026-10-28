@@ -4,6 +4,7 @@ import { PluginSpec } from "semantic-release";
 
 import { releaseBranchName } from "./branches";
 import { releaseChannel } from "./release-channel";
+import { onSlackSuccess } from "./slack";
 import { getWorkspacePackageJsonFiles } from "./workspaces";
 
 const workspacePkgFiles = getWorkspacePackageJsonFiles();
@@ -112,6 +113,7 @@ if (process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK) {
     {
       notifyOnFail: false,
       notifyOnSuccess: true,
+      onSuccessFunction: onSlackSuccess,
       slackWebhook: process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK,
     },
   ]);
