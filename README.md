@@ -62,6 +62,7 @@ Enable/disable features via environment variables:
 - `GITHUB_TOKEN`: publish GitHub releases via `@semantic-release/github`
 - `SEMANTIC_RELEASE_NPM_PUBLISH=true`: publish to npm; otherwise npm is configured with `npmPublish: false`
 - `SEMANTIC_RELEASE_SLACK_WEBHOOK`: send release notifications to Slack
+- `SEMANTIC_RELEASE_KOURIER_URL` and `SEMANTIC_RELEASE_KOURIER_TOKEN`: push the release to [Kourier](https://github.com/kuzzleio/kourier), which notifies the client organisations subscribed to the project and release channel. Both are organisation secrets on GitHub; a Kourier failure is logged and never fails the release
 
 ## Monorepo workspaces
 

@@ -120,6 +120,20 @@ if (process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK) {
 }
 
 /**
+ * Pushes the release event to Kourier (kuzzleio/kourier), which notifies the
+ * client organisations subscribed to this project. Both variables are needed:
+ * the URL of the Kourier backend and the `release-emitter` API key.
+ */
+if (
+  process.env.SEMANTIC_RELEASE_KOURIER_URL &&
+  process.env.SEMANTIC_RELEASE_KOURIER_TOKEN
+) {
+  // A path, so semantic-release loads it like any plugin and names it in its
+  // logs; `lib/` and `dist/` both hold `kourier`.
+  plugins.push(path.join(__dirname, "kourier"));
+}
+
+/**
  * Git plugin must be in last position because it looks for files changed by
  * previous plugins and commits them.
  */
