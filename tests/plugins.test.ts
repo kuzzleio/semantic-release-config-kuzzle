@@ -110,6 +110,7 @@ describe("plugins", () => {
       {
         notifyOnFail: false,
         notifyOnSuccess: true,
+        onSuccessFunction: expect.any(Function),
         slackWebhook: "https://hooks.slack.test",
       },
     ]);
