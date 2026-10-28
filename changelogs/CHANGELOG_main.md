@@ -1,3 +1,13 @@
+## [1.8.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.3...v1.8.0) (2026-10-28)
+
+### Features
+
+* **slack:** render the release notification with Block Kit ([3b98635](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/3b9863546a04e90d9064b3d06fb03839ec8c4c44))
+
+### Bug Fixes
+
+* **slack:** drop the deps scope under the Dependencies section ([e3e429f](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/e3e429fb494f53646f0c5a83e3bed6f60bdda4d0))
+
 ## [1.7.3](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.2...v1.7.3) (2026-09-17)
 
 ### Bug Fixes
