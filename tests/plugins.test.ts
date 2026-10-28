@@ -119,6 +119,25 @@ describe("plugins", () => {
     );
   });
 
+  it("adds the Kourier emitter before the git plugin when both variables are set", async () => {
+    const withoutToken = await loadPlugins({
+      env: { SEMANTIC_RELEASE_KOURIER_URL: "https://kourier.test" },
+    });
+    expect(withoutToken).not.toContainEqual(expect.stringMatching(/kourier$/));
+
+    const plugins = await loadPlugins({
+      env: {
+        SEMANTIC_RELEASE_KOURIER_TOKEN: "secret",
+        SEMANTIC_RELEASE_KOURIER_URL: "https://kourier.test",
+      },
+    });
+
+    expect(plugins.at(-2)).toMatch(/[/\\]lib[/\\]kourier$/);
+    expect(plugins.at(-1)).toEqual(
+      expect.arrayContaining(["@semantic-release/git"]),
+    );
+  });
+
   it("publishes through the npm plugin when npm publishing is enabled without workspaces", async () => {
     const plugins = await loadPlugins({
       env: {
