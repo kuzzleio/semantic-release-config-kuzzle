@@ -166,6 +166,33 @@ describe("onSlackSuccess", () => {
     ]);
   });
 
+  it("drops the deps scope under the Dependencies section only", () => {
+    const message = onSlackSuccess(
+      {},
+      buildContext({
+        notes:
+          "## 1.0.0 (2026-01-01)\n\n### Dependencies\n\n* **deps:** bump kuzzle\n\n### Bug Fixes\n\n* **deps:** pin kuzzle\n",
+      }),
+    );
+
+    expect(message.blocks?.slice(2, 4)).toEqual([
+      {
+        text: {
+          text: "*:package: Dependencies*\n• bump kuzzle",
+          type: "mrkdwn",
+        },
+        type: "section",
+      },
+      {
+        text: {
+          text: "*:bug: Bug Fixes*\n• *deps:* pin kuzzle",
+          type: "mrkdwn",
+        },
+        type: "section",
+      },
+    ]);
+  });
+
   it("prefers SEMANTIC_RELEASE_PACKAGE and says when nothing changed", () => {
     const context = buildContext({ notes: "## 1.0.0 (2026-01-01)\n" });
     context.env = { SEMANTIC_RELEASE_PACKAGE: "my-app" } as typeof context.env;
