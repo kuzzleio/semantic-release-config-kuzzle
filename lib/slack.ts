@@ -89,13 +89,24 @@ function truncate(text: string, maxLength: number) {
   return text.length > maxLength ? `${text.slice(0, maxLength - 1)}…` : text;
 }
 
-function formatItem(item: ReleaseNoteItem) {
+/**
+ * Scopes that only repeat the title of the section they are listed in: the
+ * preset files every `chore(deps)` commit under "Dependencies".
+ */
+const REDUNDANT_SCOPES: Record<string, string> = {
+  Dependencies: "deps",
+};
+
+function formatItem(item: ReleaseNoteItem, sectionTitle: string) {
   const links = [
     ...(item.commit ? [link(item.commit.url, item.commit.hash)] : []),
     ...item.references.map(({ label, url }) => link(url, label)),
   ];
 
-  const scope = item.scope ? `*${escapeText(item.scope)}:* ` : "";
+  const scope =
+    item.scope && item.scope !== REDUNDANT_SCOPES[sectionTitle]
+      ? `*${escapeText(item.scope)}:* `
+      : "";
   const trailer = links.length > 0 ? ` (${links.join(", ")})` : "";
 
   return truncate(
@@ -122,7 +133,7 @@ function toSectionTexts(sections: ReleaseNoteSection[]) {
     let itemCount = 0;
 
     for (const item of section.items) {
-      const line = formatItem(item);
+      const line = formatItem(item, section.title);
 
       if (text.length + line.length + 1 > MAX_SECTION_LENGTH) {
         texts.push({ itemCount, text });
