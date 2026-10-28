@@ -1,3 +1,9 @@
+## [1.8.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.3-develop.1...v1.8.0-develop.1) (2026-10-28)
+
+### Features
+
+* **slack:** render the release notification with Block Kit ([3b98635](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/3b9863546a04e90d9064b3d06fb03839ec8c4c44))
+
 ## [1.7.3-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.2...v1.7.3-develop.1) (2026-09-17)
 
 ### Bug Fixes
