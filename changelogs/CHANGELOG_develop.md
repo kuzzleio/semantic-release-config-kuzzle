@@ -1,3 +1,9 @@
+## [1.8.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.8.0-develop.1...v1.8.0-develop.2) (2026-10-28)
+
+### Bug Fixes
+
+* **slack:** drop the deps scope under the Dependencies section ([e3e429f](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/e3e429fb494f53646f0c5a83e3bed6f60bdda4d0))
+
 ## [1.8.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.3-develop.1...v1.8.0-develop.1) (2026-10-28)
 
 ### Features
