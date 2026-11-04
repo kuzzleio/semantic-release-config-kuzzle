@@ -104,7 +104,10 @@ describe("plugins", () => {
       },
     });
 
-    expect(plugins).toContain("@semantic-release/github");
+    expect(plugins).toContainEqual([
+      "@semantic-release/github",
+      { successCommentCondition: false },
+    ]);
     expect(plugins).toContainEqual([
       "semantic-release-slack-bot",
       {
