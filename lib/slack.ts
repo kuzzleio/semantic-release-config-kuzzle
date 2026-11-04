@@ -151,7 +151,7 @@ function toSectionTexts(sections: ReleaseNoteSection[]) {
   return texts;
 }
 
-function getReleaseUrl(repositoryUrl: string, gitTag: string) {
+export function getReleaseUrl(repositoryUrl: string, gitTag: string) {
   const prefix = new URL(repositoryUrl).hostname.startsWith("gitlab")
     ? "/-/releases/"
     : "/releases/tag/";
@@ -159,9 +159,9 @@ function getReleaseUrl(repositoryUrl: string, gitTag: string) {
   return `${repositoryUrl}${prefix}${encodeURIComponent(gitTag)}`;
 }
 
-function getPackageName(
+export function getPackageName(
   pluginConfig: { packageName?: string },
-  context: SlackSuccessContext,
+  context: Pick<SlackSuccessContext, "env">,
   repositoryUrl?: string,
 ) {
   return (

@@ -104,7 +104,10 @@ describe("plugins", () => {
       },
     });
 
-    expect(plugins).toContain("@semantic-release/github");
+    expect(plugins).toContainEqual([
+      "@semantic-release/github",
+      { successCommentCondition: false },
+    ]);
     expect(plugins).toContainEqual([
       "semantic-release-slack-bot",
       {
@@ -114,6 +117,25 @@ describe("plugins", () => {
         slackWebhook: "https://hooks.slack.test",
       },
     ]);
+    expect(plugins.at(-1)).toEqual(
+      expect.arrayContaining(["@semantic-release/git"]),
+    );
+  });
+
+  it("adds the Kourier emitter before the git plugin when both variables are set", async () => {
+    const withoutToken = await loadPlugins({
+      env: { SEMANTIC_RELEASE_KOURIER_URL: "https://kourier.test" },
+    });
+    expect(withoutToken).not.toContainEqual(expect.stringMatching(/kourier$/));
+
+    const plugins = await loadPlugins({
+      env: {
+        SEMANTIC_RELEASE_KOURIER_TOKEN: "secret",
+        SEMANTIC_RELEASE_KOURIER_URL: "https://kourier.test",
+      },
+    });
+
+    expect(plugins.at(-2)).toMatch(/[/\\]lib[/\\]kourier$/);
     expect(plugins.at(-1)).toEqual(
       expect.arrayContaining(["@semantic-release/git"]),
     );

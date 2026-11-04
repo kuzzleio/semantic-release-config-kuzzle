@@ -53,7 +53,17 @@ const plugins: PluginSpec[] = [
 ];
 
 if (process.env.GITHUB_TOKEN) {
-  plugins.push("@semantic-release/github");
+  // Commenting on (and labelling) the issues and PRs of a release makes the
+  // "success" step query the associated PRs of every commit through GraphQL.
+  // On large releases that query comes back empty and the step throws
+  // ("Cannot destructure property 'repository'") after everything was
+  // published, failing the job. We don't rely on those comments, so skip them.
+  plugins.push([
+    "@semantic-release/github",
+    {
+      successCommentCondition: false,
+    },
+  ]);
 }
 
 const shouldPublishToNpm = process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true";
@@ -117,6 +127,20 @@ if (process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK) {
       slackWebhook: process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK,
     },
   ]);
+}
+
+/**
+ * Pushes the release event to Kourier (kuzzleio/kourier), which notifies the
+ * client organisations subscribed to this project. Both variables are needed:
+ * the URL of the Kourier backend and the `release-emitter` API key.
+ */
+if (
+  process.env.SEMANTIC_RELEASE_KOURIER_URL &&
+  process.env.SEMANTIC_RELEASE_KOURIER_TOKEN
+) {
+  // A path, so semantic-release loads it like any plugin and names it in its
+  // logs; `lib/` and `dist/` both hold `kourier`.
+  plugins.push(path.join(__dirname, "kourier"));
 }
 
 /**
