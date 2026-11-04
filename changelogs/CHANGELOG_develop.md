@@ -1,3 +1,9 @@
+## [1.9.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.9.0-develop.1...v1.9.0-develop.2) (2026-11-04)
+
+### Bug Fixes
+
+* **github:** skip release comments that crash the success step ([55885af](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/55885afa8e49a75821055a1dccc6c8ca2d1ef90c))
+
 ## [1.9.0-develop.1](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.8.0...v1.9.0-develop.1) (2026-10-28)
 
 ### Features
