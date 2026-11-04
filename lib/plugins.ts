@@ -53,7 +53,17 @@ const plugins: PluginSpec[] = [
 ];
 
 if (process.env.GITHUB_TOKEN) {
-  plugins.push("@semantic-release/github");
+  // Commenting on (and labelling) the issues and PRs of a release makes the
+  // "success" step query the associated PRs of every commit through GraphQL.
+  // On large releases that query comes back empty and the step throws
+  // ("Cannot destructure property 'repository'") after everything was
+  // published, failing the job. We don't rely on those comments, so skip them.
+  plugins.push([
+    "@semantic-release/github",
+    {
+      successCommentCondition: false,
+    },
+  ]);
 }
 
 const shouldPublishToNpm = process.env.SEMANTIC_RELEASE_NPM_PUBLISH === "true";
