@@ -117,6 +117,22 @@ if (workspacePkgFiles.length > 0) {
   ]);
 }
 
+/**
+ * Pushes the release event to Kourier (kuzzleio/kourier), which notifies the
+ * client organisations subscribed to this project. Both variables are needed:
+ * the URL of the Kourier backend and the `release-emitter` API key. Before
+ * the Slack notifier: its message links to Kourier's page sending the release
+ * (`lib/kourier-send-url.ts`), and `success` steps run in plugin order.
+ */
+if (
+  process.env.SEMANTIC_RELEASE_KOURIER_URL &&
+  process.env.SEMANTIC_RELEASE_KOURIER_TOKEN
+) {
+  // A path, so semantic-release loads it like any plugin and names it in its
+  // logs; `lib/` and `dist/` both hold `kourier`.
+  plugins.push(path.join(__dirname, "kourier"));
+}
+
 if (process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK) {
   plugins.push([
     "semantic-release-slack-bot",
@@ -127,20 +143,6 @@ if (process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK) {
       slackWebhook: process.env.SEMANTIC_RELEASE_SLACK_WEBHOOK,
     },
   ]);
-}
-
-/**
- * Pushes the release event to Kourier (kuzzleio/kourier), which notifies the
- * client organisations subscribed to this project. Both variables are needed:
- * the URL of the Kourier backend and the `release-emitter` API key.
- */
-if (
-  process.env.SEMANTIC_RELEASE_KOURIER_URL &&
-  process.env.SEMANTIC_RELEASE_KOURIER_TOKEN
-) {
-  // A path, so semantic-release loads it like any plugin and names it in its
-  // logs; `lib/` and `dist/` both hold `kourier`.
-  plugins.push(path.join(__dirname, "kourier"));
 }
 
 /**

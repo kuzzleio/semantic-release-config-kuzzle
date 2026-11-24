@@ -11,6 +11,7 @@ import {
   vi,
 } from "vitest";
 
+import { getKourierSendUrl, setKourierSendUrl } from "../lib/kourier-send-url";
 import { resetEnv, restoreEnv } from "./env";
 
 const repo = "https://github.com/kuzzleio/kuzzle";
@@ -74,6 +75,7 @@ afterAll(() => {
 
 beforeEach(() => {
   resetEnv();
+  setKourierSendUrl(null);
   received = [];
   reply = {
     body: { result: { deliveries: 2, duplicate: false } },
@@ -156,5 +158,41 @@ describe("kourier success step", () => {
     expect(ctx.logger.error).toHaveBeenCalledWith(
       expect.stringMatching(/^Kourier could not be reached: .*ECONNREFUSED/),
     );
+  });
+
+  it("keeps the send link of a release waiting in Kourier", async () => {
+    reply = {
+      body: {
+        result: {
+          deliveries: 2,
+          duplicate: false,
+          held: 2,
+          sendUrl: "https://kourier.test/releases?send=abc",
+        },
+      },
+      status: 200,
+    };
+    const { success } = await loadKourier();
+    const ctx = context();
+
+    await success({}, ctx);
+
+    expect(getKourierSendUrl()).toBe("https://kourier.test/releases?send=abc");
+    expect(ctx.logger.log).toHaveBeenCalledWith(
+      "2 notification(s) wait to be sent: https://kourier.test/releases?send=abc",
+    );
+  });
+
+  it("forgets a previous send link and ignores a non-http one", async () => {
+    setKourierSendUrl("https://kourier.test/releases?send=old");
+    reply = {
+      body: { result: { deliveries: 1, held: 1, sendUrl: "javascript:x" } },
+      status: 200,
+    };
+    const { success } = await loadKourier();
+
+    await success({}, context());
+
+    expect(getKourierSendUrl()).toBeNull();
   });
 });

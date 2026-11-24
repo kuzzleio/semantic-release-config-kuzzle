@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { getRepositoryWebUrl, parseReleaseNotes } from "../lib/release-notes";
+import { setKourierSendUrl } from "../lib/kourier-send-url";
 import { markdownToMrkdwn, onSlackSuccess } from "../lib/slack";
 
 const repo = "https://github.com/kuzzleio/kuzzle";
@@ -164,6 +165,33 @@ describe("onSlackSuccess", () => {
         type: "actions",
       },
     ]);
+  });
+
+  it("adds Kourier's send link next to the release one", () => {
+    setKourierSendUrl("https://kourier.test/releases?send=abc");
+
+    try {
+      const message = onSlackSuccess({}, buildContext());
+
+      expect(message.blocks?.at(-1)).toEqual({
+        elements: [
+          {
+            text: { text: "View release", type: "plain_text" },
+            type: "button",
+            url: `${repo}/releases/tag/v2.60.0-beta.5`,
+          },
+          {
+            style: "primary",
+            text: { text: "Send to clients", type: "plain_text" },
+            type: "button",
+            url: "https://kourier.test/releases?send=abc",
+          },
+        ],
+        type: "actions",
+      });
+    } finally {
+      setKourierSendUrl(null);
+    }
   });
 
   it("drops the deps scope under the Dependencies section only", () => {
