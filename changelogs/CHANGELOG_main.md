@@ -1,3 +1,13 @@
+## [1.9.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.8.0...v1.9.0) (2026-11-04)
+
+### Features
+
+* **kourier:** push the release event to Kourier on success ([ab7eeab](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/ab7eeabb70fc5ff2718ead18440e09293135375b))
+
+### Bug Fixes
+
+* **github:** skip release comments that crash the success step ([55885af](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/55885afa8e49a75821055a1dccc6c8ca2d1ef90c))
+
 ## [1.8.0](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.7.3...v1.8.0) (2026-10-28)
 
 ### Features
