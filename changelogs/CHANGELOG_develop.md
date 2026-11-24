@@ -1,3 +1,9 @@
+## [1.9.0-develop.3](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.9.0-develop.2...v1.9.0-develop.3) (2026-11-24)
+
+### Features
+
+* **slack:** send to clients button when Kourier holds the release ([6619f40](https://github.com/kuzzleio/semantic-release-config-kuzzle/commit/6619f4084b6fc0ebfdd33b6b99fe4057364c71ab))
+
 ## [1.9.0-develop.2](https://github.com/kuzzleio/semantic-release-config-kuzzle/compare/v1.9.0-develop.1...v1.9.0-develop.2) (2026-11-04)
 
 ### Bug Fixes
