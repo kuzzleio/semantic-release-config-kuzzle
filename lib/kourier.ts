@@ -1,3 +1,4 @@
+import { setKourierSendUrl } from "./kourier-send-url";
 import { releaseChannel } from "./release-channel";
 import {
   ReleaseNoteSection,
@@ -75,6 +76,8 @@ export async function success(
   const baseUrl = env.SEMANTIC_RELEASE_KOURIER_URL?.replace(/\/+$/, "");
   const token = env.SEMANTIC_RELEASE_KOURIER_TOKEN;
 
+  setKourierSendUrl(null);
+
   if (!baseUrl || !token) {
     return;
   }
@@ -92,7 +95,12 @@ export async function success(
     });
     const body = (await response.json().catch(() => null)) as {
       error?: { message?: string };
-      result?: { deliveries?: number; duplicate?: boolean };
+      result?: {
+        deliveries?: number;
+        duplicate?: boolean;
+        held?: number;
+        sendUrl?: string | null;
+      };
     } | null;
 
     if (!response.ok) {
@@ -104,12 +112,18 @@ export async function success(
       return;
     }
 
-    const { deliveries, duplicate } = body?.result ?? {};
+    const { deliveries, duplicate, held, sendUrl } = body?.result ?? {};
     logger.log(
       duplicate
         ? `Kourier already had ${event.project} ${event.version}: ${deliveries} new notification(s) planned`
         : `Kourier notified of ${event.project} ${event.version}: ${deliveries} notification(s) planned`,
     );
+
+    // Manual delivery: the internal Slack message links to the page sending them.
+    if (typeof sendUrl === "string" && /^https?:\/\//.test(sendUrl)) {
+      setKourierSendUrl(sendUrl);
+      logger.log(`${held} notification(s) wait to be sent: ${sendUrl}`);
+    }
   } catch (error) {
     // Undici puts the network reason in `cause` (ENOTFOUND, ECONNREFUSED…).
     const { cause } = error as { cause?: { code?: string; message?: string } };

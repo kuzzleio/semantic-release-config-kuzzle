@@ -141,6 +141,21 @@ describe("plugins", () => {
     );
   });
 
+  it("runs the Kourier emitter before the Slack notifier, which links to it", async () => {
+    const plugins = await loadPlugins({
+      env: {
+        SEMANTIC_RELEASE_KOURIER_TOKEN: "secret",
+        SEMANTIC_RELEASE_KOURIER_URL: "https://kourier.test",
+        SEMANTIC_RELEASE_SLACK_WEBHOOK: "https://hooks.slack.test",
+      },
+    });
+    const names = plugins.map((p) => (Array.isArray(p) ? p[0] : p));
+    const kourier = names.findIndex((n) => /[/\\]kourier$/.test(String(n)));
+
+    expect(kourier).toBeGreaterThan(-1);
+    expect(kourier).toBeLessThan(names.indexOf("semantic-release-slack-bot"));
+  });
+
   it("publishes through the npm plugin when npm publishing is enabled without workspaces", async () => {
     const plugins = await loadPlugins({
       env: {

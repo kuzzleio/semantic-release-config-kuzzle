@@ -1,3 +1,4 @@
+import { getKourierSendUrl } from "./kourier-send-url";
 import {
   ReleaseNoteItem,
   ReleaseNoteSection,
@@ -178,12 +179,15 @@ export function buildSlackMessage({
   notes,
   packageName,
   releaseUrl,
+  sendUrl,
   version,
 }: {
   channel?: string | null;
   notes: ReleaseNotes;
   packageName: string;
   releaseUrl?: string;
+  /** Kourier's page sending the release to the clients, when it waits there. */
+  sendUrl?: string | null;
   version: string;
 }): SlackMessage {
   const blocks: SlackBlock[] = [
@@ -255,17 +259,28 @@ export function buildSlackMessage({
     });
   }
 
+  const buttons: SlackBlock[] = [];
+
   if (releaseUrl) {
-    blocks.push({
-      elements: [
-        {
-          text: { text: "View release", type: "plain_text" },
-          type: "button",
-          url: releaseUrl,
-        },
-      ],
-      type: "actions",
+    buttons.push({
+      text: { text: "View release", type: "plain_text" },
+      type: "button",
+      url: releaseUrl,
     });
+  }
+
+  // A link, not an interactive button: Kourier asks who sends and confirms.
+  if (sendUrl) {
+    buttons.push({
+      style: "primary",
+      text: { text: "Send to clients", type: "plain_text" },
+      type: "button",
+      url: sendUrl,
+    });
+  }
+
+  if (buttons.length > 0) {
+    blocks.push({ elements: buttons, type: "actions" });
   }
 
   return {
@@ -298,6 +313,7 @@ export function onSlackSuccess(
       notes: parseReleaseNotes(nextRelease.notes ?? ""),
       packageName,
       releaseUrl,
+      sendUrl: getKourierSendUrl(),
       version: nextRelease.version,
     });
   } catch {
